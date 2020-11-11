@@ -10,17 +10,50 @@
 
 <h1>Fancy Spa</h1>
 <div id="clientProfile">
+    <h3> Client Profile </h3>
+    <p> @ViewBag.Name </p>
 </div>
+
 <div id="servicesMenu">
 
     <h5>Facial Treatments</h5>
-    <p>Your //TODO: pass the skintype value in here// skin type is best suited to the follow facial types:</p>
-    
+    <p> Your @ViewBag.Skintype skin type is best suited to the following facial types:</p>
+
     <ul>
-        //TODO: iterate through appropriate facial treatments
+        @foreach (string Facials in ViewBag.AppropriateFacials)
+        {
+            <li>@Facials</li>
+//does facials need to be capitalized?
+        }
     </ul>
 
     <h5>Nail Services</h5>
-    // TODO: display a description for the nail service selected
-    
+    @if (ViewBag.Manipedi == "manicure")
+    {
+        <p> Our manicure is a great way to spend 30 minutes of your day! We use shea butter hand cream and the finest gel polish.</p>
+    }
+    else if (ViewBag.Manipedi == "pedicure")
+    {
+        <p> Relax for 45 minutes in pure luxury! Our massage chairs and experienced nail techs are here to get your feet in shape for sandal season!</p>
+    }
+    else if (ViewBag.Manipedi == "both")
+    { 
+        <p>Our manicure is a great way to spend 30 minutes of your day! We use shea butter hand cream and the finest gel polish.<br /> Then relax for 45 minutes in pure luxury! Our massage chairs and experienced nail techs are here to get your feet in shape for sandal season!</p>
+    }
+
+</div>
+
+<div>
+<h1>Nail Polish Colors</h1>
+
+<p>Select Your Color:</p>
+</div>
+
+<div class="grid-container">
+    <div class="grid-item yellow"></div>
+    <div class="grid-item blue"></div>
+    <div class="grid-item green"></div>
+    <div class="grid-item red"></div>
+    <div class="grid-item purple"></div>
+
 </div>
