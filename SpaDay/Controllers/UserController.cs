@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SpaDay.Models;
+using SpaDay.ViewModel;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,30 +15,46 @@ namespace SpaDay.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View();
+            User newUser = new User()
+            {
+                Username = "Hello, Test",
+            };
+            return View(newUser);
         }
 
         public IActionResult Add()
         {
-            return View();
+            AddUserViewModel login = new AddUserViewModel();
+            return View(login);
         }
 
         [HttpPost]
         [Route("/user")]
-        public IActionResult SubmitAddUserForm(User newUser, string verify)
+        public IActionResult SubmitAddUserForm(AddUserViewModel login)
         {
-            if (newUser.Password == verify)
+            if (ModelState.IsValid)
             {
-                ViewBag.user = newUser;
-                return View("Index");
+                if (login.Password == login.VerifyPassword)
+                {
+                    User newUser = new User()
+                    {
+                        Username = login.Username,
+                        Email = login.Email,
+                        Password = login.Password
+                    };
+                    return View("Index", newUser);
+                }
+                else
+                {
+                    ViewBag.error = "Passwords do not match! Try again!";
+                    ViewBag.Username = login.Username;
+                    ViewBag.Email = login.Email;
+                    return View("Add", login);
+                }
+
             }
-            else
-            {
-                ViewBag.error = "Passwords do not match! Try again!";
-                ViewBag.userName = newUser.Username;
-                ViewBag.eMail = newUser.Email;
-                return View("Add");
-            }
+
+            return View("Add", login);
         }
 
     }
